@@ -1,18 +1,22 @@
-from model.Filme import Filme
-from model.ClassindFilme import ClassindFilme
-from model.StatusFilme import StatusFilme
-from model.Sala import Sala
-from model.TipoSala import TipoSala
-from model.Sessao import Sessao
-from model.Ingresso import IngressoFactory
+from model.base_classes.Filme import Filme
+from model.base_classes.ClassindFilme import ClassindFilme
+from model.base_classes.StatusFilme import StatusFilme
+from model.base_classes.Sala import Sala
+from model.base_classes.TipoSala import TipoSala
+from model.base_classes.Sessao import Sessao
+from model.base_classes.Ingresso import IngressoFactory
+from model.payment_methods.PagamentoDinheiro import PagamentoDinheiro
+from model.payment_methods.PagamentoPix import PagamentoPix
+from model.payment_methods.PagamentoCartao import PagamentoCartao
+from model.payment_methods.Venda import Venda
 
 # Instâncias de Filme e alterações:
 
 f1 = Filme("Truque de Mestre: O 3° Ato", 112, descricao=None, data_estreia=None)
-print("Método Representação:\n", f1)
+print("\nMétodo Representação:\n", f1)
 print(f1.exibir_dados())
 f1.alterar_classificacao(ClassindFilme.DOZE_ANOS)
-print("Alterando Classificação:")
+print("Alterando Classificação: ")
 print(f1.exibir_dados())
 
 f2 = Filme("Avatar: Fogo e Cinzas", 192, classificacao=ClassindFilme.QUATORZE_ANOS, descricao=None, status=StatusFilme.EM_BREVE, data_estreia="18-12-2025")
@@ -49,3 +53,17 @@ print(ing3)
 print(ing3.exibir_dados())
 print(sessao1.exibir_dados())
 print(sessao1.exibir_assentos())
+
+# Instâncias de Venda, suas funções e strategies de MetodoPagamento
+
+print("PAGAMENTO DINHEIRO")
+venda_dinheiro = Venda(ing1, PagamentoDinheiro())
+venda_dinheiro.finalizar()
+
+print("PAGAMENTO CARTÃO")
+venda_cartao = Venda(ing2, PagamentoCartao())
+venda_cartao.finalizar()
+
+print("PAGAMENTO PIX")
+venda_pix = Venda(ing3, PagamentoPix())
+venda_pix.finalizar()
